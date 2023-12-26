@@ -31,16 +31,16 @@ impl Histogram {
 
     /// Increment the counter for the bucket corresponding to the provided value
     /// by one.
-    pub fn increment(&mut self, value: u64) -> Result<(), Error> {
+    pub fn increment(&mut self, value: u64) -> Result<usize, Error> {
         self.add(value, 1)
     }
 
     /// Add some count to the counter for the bucket corresponding to the
     /// provided value
-    pub fn add(&mut self, value: u64, count: u64) -> Result<(), Error> {
+    pub fn add(&mut self, value: u64, count: u64) -> Result<usize, Error> {
         let index = self.config.value_to_index(value)?;
         self.buckets[index] = self.buckets[index].wrapping_add(count);
-        Ok(())
+        Ok(index)
     }
 
     /// Get a reference to the raw counters.
